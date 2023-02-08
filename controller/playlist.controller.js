@@ -18,7 +18,8 @@ class PlaylistController {
                 ORDER BY playlist.id
                 LIMIT $2
                 OFFSET (($1 - 1) * $2);
-        `;
+            `;
+
             try {
                 const { rows } = await client.query(query, [page, size]);
                 res.status(200).json(rows);
@@ -30,40 +31,42 @@ class PlaylistController {
         }
     }
 
-    async getFilteredPlaylist(req, res) {
+    async getPlaylistByFilter(req, res) {
         const client = await pool.connect();
 
-        const {performer, genre, year} = req.query;
+        const performer = req.query.performer;
+        const genre = req.query.genre;
+        const year = req.query.year;
 
-        let arr = [];
-        let query = 'SELECT * FROM playlist';
+        let sql = 'SELECT * FROM playlist';
+        let params = [];
 
-        if(performer || genre || year){
-            query += ' WHERE';
+        if (performer || genre || year) {
+            sql += ' WHERE';
         }
 
-        if(performer){
-            query += ' performer = $1';
-            arr.push(performer);
+        if (performer) {
+            sql += ' performer = $1';
+            params.push(performer);
         }
 
-        if(genre){
-            if(arr.length > 0){
-                query += ' AND';
+        if (genre) {
+            if (params.length > 0) {
+                sql += ' AND';
             }
-            query += ' genre = $' + (arr.length + 1);
-            arr.push(genre);
+            sql += ' genre = $' + (params.length + 1);
+            params.push(genre);
         }
 
-        if(year){
-            if(arr.length > 0){
-                query += ' AND';
+        if (year) {
+            if (params.length > 0) {
+                sql += ' AND';
             }
-            query += ' year = $' + (arr.length + 1);
-            arr.push(year);
+            sql += ' year = $' + (params.length + 1);
+            params.push(year);
         }
 
-        client.query(query, arr, (error, results) => {
+        client.query(sql, params, (error, results) => {
             if (error) {
                 res.status(400).json({
                     error: error
