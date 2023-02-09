@@ -15,7 +15,7 @@ const Filter = ({ playlist, setPlaylist }) => {
     }, [performer, genre, year]);
 
     const fetchPlaylistData = () => {
-        fetch(`http://localhost:8080/api/playlist-filter/?performer=${performer}&genre=${genre}&year=${year}`)
+        fetch(`http://localhost:8080/api/playlist-filter/?performer=${performer}&genre=${genre}&year=${year}`, { method: 'GET' })
             .then(res => res.json())
             .then(data => {setPlaylist(data.data)})
             .catch(error => console.error(error));

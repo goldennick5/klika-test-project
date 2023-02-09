@@ -15,7 +15,7 @@ function App() {
 
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/playlist')
+        fetch('http://localhost:8080/api/playlist', { method: 'GET' })
             .then(response => response.json())
             .then(data => {
                 setPlaylist(data)
@@ -24,7 +24,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/playlist-sort/?sortBy=${sortBy}&order=${order}`)
+        fetch(`http://localhost:8080/api/playlist-sort/?sortBy=${sortBy}&order=${order}`, { method: 'GET' })
             .then(response => response.json())
             .then(data => setPlaylist(data.rows));
     }, [sortBy, order]);
