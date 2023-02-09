@@ -23,6 +23,7 @@ class PlaylistController {
             try {
                 const { rows } = await client.query(query, [page, size]);
                 res.status(200).json(rows);
+                return res.end()
             } finally {
                 await client.release();
             }
@@ -109,6 +110,7 @@ class PlaylistController {
         }
 
         res.json(sortedPlaylist);
+        res.end();
     }
 }
 
