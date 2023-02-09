@@ -77,6 +77,39 @@ class PlaylistController {
             });
         });
     }
+
+    async getPlaylistAscDscOrder(req, res) {
+        const client = await pool.connect();
+        const sortBy = req.query.sortBy;
+        const order = req.query.order;
+
+        let sortedPlaylist = await client.query('SELECT * FROM playlist');
+
+        switch (sortBy) {
+            case 'performer':
+                sortedPlaylist.rows.sort((a, b) => {
+                    return a.performer.localeCompare(b.performer);
+                });
+                break;
+            case 'song':
+                sortedPlaylist.rows.sort((a, b) => {
+                    return order === 'asc' ? a.song.localeCompare(b.song) : b.song.localeCompare(a.song);
+                });
+                break;
+            case 'genre':
+                sortedPlaylist.rows.sort((a, b) => {
+                    return order === 'asc' ? a.genre.localeCompare(b.genre) : b.genre.localeCompare(a.genre);
+                });
+                break;
+            case 'year':
+                sortedPlaylist.rows.sort((a, b) => {
+                    return order === 'asc' ? a.year - b.year : b.year - a.year;
+                });
+                break;
+        }
+
+        res.json(sortedPlaylist);
+    }
 }
 
 module.exports = new PlaylistController();
