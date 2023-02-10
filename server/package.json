@@ -7,7 +7,6 @@
     "start": "node index.js",
     "dev": "nodemon ./index.js"
   },
-  "proxy": "http://localhost:8080",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tokhtaraubakirov/klika-test-project.git"

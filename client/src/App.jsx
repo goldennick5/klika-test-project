@@ -13,9 +13,12 @@ function App() {
     const [sortBy, setSortBy] = useState('performer');
     const [order, setOrder] = useState('desc');
 
+    const baseUrlForPlaylist = process.env.NODE_ENV === "production" ? "/api/playlist" : "http://localhost:8080/api/playlist";
+    const baseUrlForPlaylistSort = process.env.NODE_ENV === "production" ? `/api/playlist-sort/?sortBy=${sortBy}&order=${order}`
+                                                                         : `http://localhost:8080/api/playlist-sort/?sortBy=${sortBy}&order=${order}`;
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/playlist', { method: 'GET' })
+        fetch(baseUrlForPlaylist, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
                 setPlaylist(data)
@@ -24,7 +27,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/playlist-sort/?sortBy=${sortBy}&order=${order}`, { method: 'GET' })
+        fetch(baseUrlForPlaylistSort, { method: 'GET' })
             .then(response => response.json())
             .then(data => setPlaylist(data.rows));
     }, [sortBy, order]);
