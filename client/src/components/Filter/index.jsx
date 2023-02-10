@@ -12,7 +12,7 @@ const Filter = ({ playlist, setPlaylist }) => {
     years.sort((a, b) => a - b);
 
     const baseUrlForPlaylistFilter = process.env.NODE_ENV === "production" ? `/api/playlist-filter/?performer=${performer}&genre=${genre}&year=${year}`
-        : `http://localhost:8080/api/playlist-filter/?performer=${performer}&genre=${genre}&year=${year}`;
+        : `https://klika-playlist-project-tokhtar.onrender.com/api/playlist-filter/?performer=${performer}&genre=${genre}&year=${year}`;
 
     useEffect(() => {
         fetchPlaylistData();

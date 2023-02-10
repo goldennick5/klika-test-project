@@ -13,9 +13,9 @@ function App() {
     const [sortBy, setSortBy] = useState('performer');
     const [order, setOrder] = useState('desc');
 
-    const baseUrlForPlaylist = process.env.NODE_ENV === "production" ? "/api/playlist" : "http://localhost:8080/api/playlist";
+    const baseUrlForPlaylist = process.env.NODE_ENV === "production" ? "/api/playlist" : "https://klika-playlist-project-tokhtar.onrender.com/api/playlist";
     const baseUrlForPlaylistSort = process.env.NODE_ENV === "production" ? `/api/playlist-sort/?sortBy=${sortBy}&order=${order}`
-                                                                         : `http://localhost:8080/api/playlist-sort/?sortBy=${sortBy}&order=${order}`;
+                                                                         : `https://klika-playlist-project-tokhtar.onrender.com/api/playlist-sort/?sortBy=${sortBy}&order=${order}`;
 
     useEffect(() => {
         fetch(baseUrlForPlaylist, { method: 'GET' })
