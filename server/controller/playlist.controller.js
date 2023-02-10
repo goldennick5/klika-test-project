@@ -23,7 +23,7 @@ class PlaylistController {
             try {
                 const { rows } = await client.query(query, [page, size]);
                 res.status(200).json(rows);
-                return res.end()
+                return res.end();
             } finally {
                 await client.release();
             }
@@ -33,84 +33,98 @@ class PlaylistController {
     }
 
     async getPlaylistByFilter(req, res) {
-        const client = await pool.connect();
+        try {
+            const client = await pool.connect();
 
-        const performer = req.query.performer;
-        const genre = req.query.genre;
-        const year = req.query.year;
+            const performer = req.query.performer;
+            const genre = req.query.genre;
+            const year = req.query.year;
 
-        let sql = 'SELECT * FROM playlist';
-        let params = [];
+            let sql = 'SELECT * FROM playlist';
+            let params = [];
 
-        if (performer || genre || year) {
-            sql += ' WHERE';
-        }
-
-        if (performer) {
-            sql += ' performer = $1';
-            params.push(performer);
-        }
-
-        if (genre) {
-            if (params.length > 0) {
-                sql += ' AND';
+            if (performer || genre || year) {
+                sql += ' WHERE';
             }
-            sql += ' genre = $' + (params.length + 1);
-            params.push(genre);
-        }
 
-        if (year) {
-            if (params.length > 0) {
-                sql += ' AND';
+            if (performer) {
+                sql += ' performer = $1';
+                params.push(performer);
             }
-            sql += ' year = $' + (params.length + 1);
-            params.push(year);
-        }
 
-        client.query(sql, params, (error, results) => {
-            if (error) {
-                res.status(400).json({
-                    error: error
+            if (genre) {
+                if (params.length > 0) {
+                    sql += ' AND';
+                }
+                sql += ' genre = $' + (params.length + 1);
+                params.push(genre);
+            }
+
+            if (year) {
+                if (params.length > 0) {
+                    sql += ' AND';
+                }
+                sql += ' year = $' + (params.length + 1);
+                params.push(year);
+            }
+            try {
+                client.query(sql, params, (error, results) => {
+                    if (error) {
+                        res.status(400).json({
+                            error: error
+                        });
+                    }
+                    res.json({
+                        data: results.rows
+                    });
                 });
+            } finally {
+                await client.release();
             }
-            res.json({
-                data: results.rows
-            });
-        });
+        } catch (error) {
+            return res.status(500).json(error);
+        }
     }
 
     async getPlaylistAscDscOrder(req, res) {
-        const client = await pool.connect();
-        const sortBy = req.query.sortBy;
-        const order = req.query.order;
+        try {
+            const client = await pool.connect();
+            const sortBy = req.query.sortBy;
+            const order = req.query.order;
 
-        let sortedPlaylist = await client.query('SELECT * FROM playlist');
+            let sortedPlaylist = await client.query('SELECT * FROM playlist');
 
-        switch (sortBy) {
-            case 'performer':
-                sortedPlaylist.rows.sort((a, b) => {
-                    return a.performer.localeCompare(b.performer);
-                });
-                break;
-            case 'song':
-                sortedPlaylist.rows.sort((a, b) => {
-                    return order === 'asc' ? a.song.localeCompare(b.song) : b.song.localeCompare(a.song);
-                });
-                break;
-            case 'genre':
-                sortedPlaylist.rows.sort((a, b) => {
-                    return order === 'asc' ? a.genre.localeCompare(b.genre) : b.genre.localeCompare(a.genre);
-                });
-                break;
-            case 'year':
-                sortedPlaylist.rows.sort((a, b) => {
-                    return order === 'asc' ? a.year - b.year : b.year - a.year;
-                });
-                break;
+            switch (sortBy) {
+                case 'performer':
+                    sortedPlaylist.rows.sort((a, b) => {
+                        return a.performer.localeCompare(b.performer);
+                    });
+                    break;
+                case 'song':
+                    sortedPlaylist.rows.sort((a, b) => {
+                        return order === 'asc' ? a.song.localeCompare(b.song) : b.song.localeCompare(a.song);
+                    });
+                    break;
+                case 'genre':
+                    sortedPlaylist.rows.sort((a, b) => {
+                        return order === 'asc' ? a.genre.localeCompare(b.genre) : b.genre.localeCompare(a.genre);
+                    });
+                    break;
+                case 'year':
+                    sortedPlaylist.rows.sort((a, b) => {
+                        return order === 'asc' ? a.year - b.year : b.year - a.year;
+                    });
+                    break;
+            }
+
+            try {
+                res.json(sortedPlaylist);
+            } finally {
+                await client.release();
+            }
+        } catch (error) {
+            return res.status(500).json(error);
         }
-
-        res.json(sortedPlaylist);
-        res.end();
     }
 }
 

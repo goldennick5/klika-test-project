@@ -29,8 +29,6 @@ function App() {
             .then(data => setPlaylist(data.rows));
     }, [sortBy, order]);
 
-    console.log(playlist)
-
     const indexOfLastRow = currPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
     const currentRows = playlist.slice(indexOfFirstRow, indexOfLastRow);
