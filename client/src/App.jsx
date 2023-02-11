@@ -4,6 +4,7 @@ import RowsQuantity from "./components/RowsQuantity/index.jsx";
 import Filter from "./components/Filter/index.jsx";
 import ErrorBoundary from "./components/ErrorBoundary/index.jsx";
 import './App.css';
+require("dotenv").config();
 
 function App() {
     const [playlist, setPlaylist] = useState([]);

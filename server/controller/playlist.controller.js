@@ -1,11 +1,11 @@
-const Pool = require('pg').Pool;
+const {Pool} = require('pg');
 const pool = new Pool({
-    user: "postgres",
-    password: "Toxa2002",
-    host: "localhost",
+    user: 'postgres',
+    host: 'localhost',
+    database: 'node_postgres',
+    password: 'Toxa2002',
     port: 5432,
-    database: "node_postgres"
-})
+});
 
 class PlaylistController {
     async getPlaylist(req, res) {
