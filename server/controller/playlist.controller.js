@@ -2,15 +2,17 @@ const {Pool} = require('pg');
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
+    address: '0.0.0.0',
     database: 'node_postgres',
     password: 'Toxa2002',
     port: 5432,
 });
 
 class PlaylistController {
+
     async getPlaylist(req, res) {
         try {
-            const client = await pool.connect();
+            const client = await this.client.connect();
             const { page, size } = req.query;
             const query = `
                 SELECT *
