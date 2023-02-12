@@ -4,7 +4,6 @@ import RowsQuantity from "./components/RowsQuantity/index.jsx";
 import Filter from "./components/Filter/index.jsx";
 import ErrorBoundary from "./components/ErrorBoundary/index.jsx";
 import './App.css';
-require("dotenv").config();
 
 function App() {
     const [playlist, setPlaylist] = useState([]);
@@ -14,12 +13,11 @@ function App() {
     const [sortBy, setSortBy] = useState('performer');
     const [order, setOrder] = useState('desc');
 
-    const baseUrlForPlaylist = process.env.NODE_ENV === "production" ? "/api/playlist" : "http://localhost:8080/api/playlist";
-    const baseUrlForPlaylistSort = process.env.NODE_ENV === "production" ? `/api/playlist-sort/?sortBy=${sortBy}&order=${order}`
-                                                                         : `http://localhost:8080/api/playlist-sort/?sortBy=${sortBy}&order=${order}`;
+    //const baseUrlForPlaylist = "/api/playlist";
+    //const baseUrlForPlaylistSort =`/api/playlist-sort/?sortBy=${sortBy}&order=${order}`;
 
     useEffect(() => {
-        fetch(baseUrlForPlaylist, { method: 'GET' })
+        fetch("/api/playlist", { method: 'GET', secure: false })
             .then(response => response.json())
             .then(data => {
                 setPlaylist(data)
@@ -28,7 +26,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        fetch(baseUrlForPlaylistSort, { method: 'GET' })
+        fetch(`/api/playlist-sort/?sortBy=${sortBy}&order=${order}`, { method: 'GET', secure: false })
             .then(response => response.json())
             .then(data => setPlaylist(data.rows));
     }, [sortBy, order]);

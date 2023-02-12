@@ -11,15 +11,14 @@ const Filter = ({ playlist, setPlaylist }) => {
     const years = Array.from(new Set(playlist.map(track => track.year)));
     years.sort((a, b) => a - b);
 
-    const baseUrlForPlaylistFilter = process.env.NODE_ENV === "production" ? `/api/playlist-filter/?performer=${performer}&genre=${genre}&year=${year}`
-        : `http://localhost:8080/api/playlist-filter/?performer=${performer}&genre=${genre}&year=${year}`;
+    //const baseUrlForPlaylistFilter = `/api/playlist-filter/?performer=${performer}&genre=${genre}&year=${year}`;
 
     useEffect(() => {
         fetchPlaylistData();
     }, [performer, genre, year]);
 
     const fetchPlaylistData = () => {
-        fetch(baseUrlForPlaylistFilter, { method: 'GET' })
+        fetch(`/api/playlist-filter/?performer=${performer}&genre=${genre}&year=${year}`, { method: 'GET' })
             .then(res => res.json())
             .then(data => {setPlaylist(data.data)})
             .catch(error => console.error(error));
