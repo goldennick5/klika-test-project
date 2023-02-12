@@ -17,7 +17,7 @@ function App() {
     //const baseUrlForPlaylistSort =`/api/playlist-sort/?sortBy=${sortBy}&order=${order}`;
 
     useEffect(() => {
-        fetch("/api/playlist", { method: 'GET', secure: false })
+        fetch("/api/playlist", { method: 'GET'})
             .then(response => response.json())
             .then(data => {
                 setPlaylist(data)
@@ -26,7 +26,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        fetch(`/api/playlist-sort/?sortBy=${sortBy}&order=${order}`, { method: 'GET', secure: false })
+        fetch(`/api/playlist-sort/?sortBy=${sortBy}&order=${order}`, { method: 'GET'})
             .then(response => response.json())
             .then(data => setPlaylist(data.rows));
     }, [sortBy, order]);
