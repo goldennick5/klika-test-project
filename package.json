@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/tokhtaraubakirov/klika-test-project.git"
   },
-  "keywords": [],
+  "keywords": ["heroku"],
   "author": "",
   "license": "ISC",
   "bugs": {
