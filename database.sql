@@ -6,9 +6,6 @@ create TABLE playlist (
     year        INTEGER         NOT NULL
 );
 
-SELECT * FROM playlist;
-SELECT * FROM playlist WHERE performer = 'Maroon 5' and genre = 'Pop' and year = 2010;
-
 INSERT INTO playlist(performer, song, genre, year)
 VALUES
 ('Led Zeppelin', 'Kashmir', 'Rock', 1975),
@@ -113,5 +110,3 @@ VALUES
 ('Bruno Mars', 'When I Was Your Man', 'Pop', 2013),
 ('Muddy Waters', 'Hoochie Coochie Man', 'Blues', 1954),
 ('Muddy Waters', 'My Home Is In The Delta', 'Blues', 1957);
-
-DROP TABLE playlist;
