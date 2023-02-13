@@ -15,7 +15,8 @@ const proConfig = {
 //process.env.NODE_ENV === "production" ? proConfig : devConfig
 console.log("")
 const pool = new Pool(
-    process.env.NODE_ENV === "production" ? proConfig : devConfig
+    //process.env.NODE_ENV === "production" ? proConfig : devConfig
+    proConfig
 );
 
 class PlaylistController {
