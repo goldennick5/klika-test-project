@@ -2,11 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const playlistRouter = require('./routes/playlist.routes');
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const PORT = process.env.PORT || 8080;
 const app = express();
-console.log(process.env.PORT)
+
 app.use(cors());
 app.use(express.json());
 

@@ -13,10 +13,9 @@ const proConfig = {
     connectionString: process.env.DATABASE_URL,
 }
 //process.env.NODE_ENV === "production" ? proConfig : devConfig
-console.log("")
+console.log(process.env.NODE_ENV)
 const pool = new Pool(
-    //process.env.NODE_ENV === "production" ? proConfig : devConfig
-    proConfig
+    process.env.NODE_ENV === "production" ? proConfig : devConfig
 );
 
 class PlaylistController {
